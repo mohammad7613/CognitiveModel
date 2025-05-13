@@ -1,0 +1,38 @@
+{
+    "contexts": {
+        "go_to_win": {
+            "go": {"1": 0.8, "0": 0.2}, 
+            "no-go": {"1": 0.2, "0": 0.8}
+        },
+        "no_go_to_win":{
+            "go": {"1": 0.2, "0": 0.8}
+          , "no-go": {"1": 0.8, "0": 0.2}
+        },
+        "go_to_avoid_loss": {
+            "go": {"0": 0.8, "-1": 0.2}, 
+            "no-go": {"-1": 0.8, "0": 0.2}
+        },
+        "no_go_to_avoid_loss": {
+            "go" : {"-1": 0.8, "0": 0.2}, 
+            "no-go": {"0": 0.8, "-1": 0.2}
+        }
+    },
+    "transitions": {
+        "go_to_win": {
+            "go": {"go_to_win": 0.25, "no_go_to_win": 0.25, "go_to_avoid_loss": 0.25, "no_go_to_avoid_loss":0.25},
+            "no-go": {"go_to_win": 0.25, "no_go_to_win": 0.25, "go_to_avoid_loss": 0.25, "no_go_to_avoid_loss":0.25}
+        },
+        "no_go_to_win": {
+            "go": {"go_to_win": 0.25, "no_go_to_win": 0.25, "go_to_avoid_loss": 0.25, "no_go_to_avoid_loss":0.25},
+            "no-go": {"go_to_win": 0.25, "no_go_to_win": 0.25, "go_to_avoid_loss": 0.25, "no_go_to_avoid_loss":0.25}
+        },
+        "go_to_avoid_loss": {
+            "go": {"go_to_win": 0.25, "no_go_to_win": 0.25, "go_to_avoid_loss": 0.25, "no_go_to_avoid_loss":0.25},
+            "no-go": {"go_to_win": 0.25, "no_go_to_win": 0.25, "go_to_avoid_loss": 0.25, "no_go_to_avoid_loss":0.25}
+        },
+        "no_go_to_avoid_loss":{
+            "go": {"go_to_win": 0.25, "no_go_to_win": 0.25, "go_to_avoid_loss": 0.25, "no_go_to_avoid_loss":0.25},
+            "no-go": {"go_to_win": 0.25, "no_go_to_win": 0.25, "go_to_avoid_loss": 0.25, "no_go_to_avoid_loss":0.25}
+        }
+    }
+}
