@@ -56,7 +56,7 @@ Install the Package
 
 Clone the repository and install the package in editable mode for development:
 
-git clone https://github.com/your-username/cognitive_models.git
+git clone https://github.com/mohammad7613/CognitiveModel.git
 cd cognitive_models
 pip install -e .
 
