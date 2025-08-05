@@ -177,3 +177,9 @@ poetry.toml
 pyrightconfig.json
 
 # End of https://www.toptal.com/developers/gitignore/api/python
+
+
+# Special files 
+
+GeneratePredictionError.ipynb
+TestFittingAnalysis.ipynb
