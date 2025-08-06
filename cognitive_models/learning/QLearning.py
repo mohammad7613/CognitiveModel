@@ -16,8 +16,9 @@ class AbstractQL(RLLearning, ABC):
         pass
 
     @abstractmethod
-    def update_value(self, state_idx: int, action: int, reward: float) -> None:
+    def update_value(self, state_idx: int, action: int, reward: float) -> NDArray:
         """Abstract method for updating Q-values. Implement in subclasses."""
+        """ you need to return the currne and the updated and delta value """
         pass
     @abstractmethod
     def action_probability(self, state_idx: int, action: int) -> float:
@@ -33,6 +34,13 @@ class AbstractQL(RLLearning, ABC):
             action_probabilities.append(self.action_probability(state_idx, action))
             self.update_value(state_idx, action, reward)
         return np.array(action_probabilities)
+    
+    def value_information_sequence(self,state_sequence: NDArray, action_sequence: NDArray, rewards_sequence: NDArray) -> NDArray:
+        value_information = []
+        for state_idx, action, reward in zip(state_sequence, action_sequence, rewards_sequence):
+            values = self.update_value(state_idx, action, reward)
+            value_information.append(values)
+        return np.array(value_information)
 
     @staticmethod
     def logistic_transform(x: float) -> float:
@@ -62,7 +70,9 @@ class QL_RL(AbstractQL):
     def update_value(self, state_idx: int, action: int, reward: float) -> None:
         """Updates Q-values using a simple Q-learning rule."""
         state = self.states[state_idx]
+        delta = (reward - state.Q[action])
         state.Q[action] += self.rho * (reward - state.Q[action])
+        return delta, state.Q
     def choose_action(self, state_idx: int) -> int:
         """Selects an action using a softmax-based policy with noise handling."""
         state = self.states[state_idx]
@@ -102,10 +112,12 @@ class QL1_RL(AbstractQL):
     def update_value(self, state_idx: int, action: int, reward: float) -> None:
         """Updates Q-values with separate learning rates for positive and negative rewards."""
         state = self.states[state_idx]
-        if reward - state.Q[action] > 0:
-            state.Q[action] += self.alphaP * (reward - state.Q[action])
+        delta = reward - state.Q[action]
+        if  delta> 0:
+            state.Q[action] += self.alphaP * delta
         else:
-            state.Q[action] += self.alphaN * (reward - state.Q[action])
+            state.Q[action] += self.alphaN * delta
+        return delta,state.Q[action]
     def choose_action(self, state_idx: int) -> int:
         """Selects an action using a softmax-based policy with noise handling."""
         state = self.states[state_idx]

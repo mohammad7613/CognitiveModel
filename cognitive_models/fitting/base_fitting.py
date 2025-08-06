@@ -18,7 +18,7 @@ class BaseFittingStrategy(ABC):
         self.num_params = num_params
 
     @abstractmethod
-    def loadData(self, data: Any) -> Tuple[NDArray, NDArray, NDArray]:
+    def loadData(self, *args, **kwargs) -> Tuple[NDArray, NDArray, NDArray]:
         """
         Load the data from any data structure to three arrays of Size N*T, N*T, N*T where N is the number of subjects and T is the number of trials.
         These arrays are States and Actions and Rewards/Observations.

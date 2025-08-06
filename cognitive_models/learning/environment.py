@@ -31,6 +31,7 @@ class MDPEnvironment:
         state_idx = initial_state_idx
         step = 0
         trajectory = np.zeros((max_steps, 3))
+        value_information = np.zeros((max_steps,3))
         while not self.task.is_terminal(state_idx) and step < max_steps:
             # RL agent chooses an action based on the current state
             action = self.agent.choose_action(state_idx)
@@ -40,12 +41,13 @@ class MDPEnvironment:
             reward = self.task.get_reward(state_idx, action)
 
             # RL agent updates its learning based on the action and reward
-            self.agent.learning_strategy(state_idx, action, reward)
+            delta,Q = self.agent.learning_strategy(state_idx, action, reward)
 
             trajectory[step] = [state_idx, action, reward]
+            value_information[step] = [reward,delta,Q]
 
             # Move to the next state
             state_idx = next_state_idx
             step += 1
 
-        return self.agent,trajectory
+        return self.agent,trajectory,value_information
